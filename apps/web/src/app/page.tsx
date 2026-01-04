@@ -184,10 +184,8 @@ export default function Landing() {
             <span className="font-bold text-lg">VoxSol</span>
           </div>
           <div className="flex gap-8 text-zinc-500 text-sm">
-            <a href="#" className="hover:text-purple-400 transition-colors">Docs</a>
-            <a href="#" className="hover:text-purple-400 transition-colors">Twitter</a>
-            <a href="#" className="hover:text-purple-400 transition-colors">GitHub</a>
-            <a href="#" className="hover:text-purple-400 transition-colors">Security</a>
+            <a href="https://x.com/Karan_Bisht09" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors">Twitter</a>
+            <a href="https://github.com/KaranSinghBisht/VoxSol" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors">GitHub</a>
           </div>
           <div className="text-zinc-600 text-xs font-mono">© 2026 VOXSOL PROTOCOL</div>
         </div>
