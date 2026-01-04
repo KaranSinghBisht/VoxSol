@@ -1,0 +1,56 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+dist
+.next
+out
+build
+.turbo
+
+# Environment files (SENSITIVE - never commit)
+.env
+.env.local
+.env.*.local
+*.env
+.dev.vars
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Testing
+coverage
+
+# Anchor / Solana
+target
+.anchor
+test-ledger
+**/*.rs.bk
+
+# Cloudflare
+.wrangler
+
+# Solana Keypairs (SENSITIVE - never commit!)
+*.json
+!package.json
+!tsconfig.json
+!turbo.json
+!components.json
+
+# Vercel
+.vercel
+
+# Misc
+*.pem
+*.p12
+.cache
