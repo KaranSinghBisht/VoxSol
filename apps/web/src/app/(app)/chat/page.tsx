@@ -124,23 +124,51 @@ export default function ChatPage() {
             };
 
 
-            // Mocking a proposal if keywords match (keeping this for now as parsing logic is not yet implemented)
+            // Parse swap request dynamically
             if (text.toLowerCase().includes('swap')) {
+                const lowerText = text.toLowerCase();
+
+                // Parse amount - look for numbers
+                const amountMatch = text.match(/(\d+\.?\d*)/);
+                const amount = amountMatch ? parseFloat(amountMatch[1]) : 0.1;
+
+                // Determine swap direction
+                const isUsdcToSol = lowerText.includes('usdc') &&
+                    (lowerText.indexOf('usdc') < lowerText.indexOf('sol') || !lowerText.includes('sol to'));
+                const isSolToUsdc = lowerText.includes('sol') &&
+                    (lowerText.includes('sol to usdc') || (lowerText.indexOf('sol') < lowerText.indexOf('usdc')));
+
+                let fromToken = 'SOL';
+                let toToken = 'USDC';
+                let inputMint = 'So11111111111111111111111111111111111111112'; // SOL
+                let outputMint = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'; // USDC
+                let amountInSmallestUnit = Math.floor(amount * 1e9); // SOL has 9 decimals
+
+                // If user wants USDC → SOL
+                if ((lowerText.includes('usdc to sol') || lowerText.includes('usdc for sol')) ||
+                    (lowerText.includes('usdc') && !lowerText.includes('to usdc'))) {
+                    fromToken = 'USDC';
+                    toToken = 'SOL';
+                    inputMint = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'; // USDC
+                    outputMint = 'So11111111111111111111111111111111111111112'; // SOL
+                    amountInSmallestUnit = Math.floor(amount * 1e6); // USDC has 6 decimals
+                }
+
                 assistantMessage.proposal = {
                     type: 'swap',
                     title: 'Swap Proposal',
-                    summary: 'Executing via Jupiter Aggregator',
+                    summary: `Swap ${amount} ${fromToken} → ${toToken}`,
                     details: [
-                        { label: 'Sell', value: '0.1 SOL' },
-                        { label: 'Receive', value: '≈ USDC' },
+                        { label: 'Sell', value: `${amount} ${fromToken}` },
+                        { label: 'Receive', value: `≈ ${toToken}` },
                         { label: 'Slippage', value: '0.5%' },
                         { label: 'Network Fee', value: '~0.000005 SOL' }
                     ],
                     riskLevel: 'low',
                     swapParams: {
-                        inputMint: 'So11111111111111111111111111111111111111112', // SOL
-                        outputMint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', // USDC
-                        amount: 100000000, // 0.1 SOL in lamports
+                        inputMint,
+                        outputMint,
+                        amount: amountInSmallestUnit,
                         slippageBps: 50,
                     }
                 };
