@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
-export const voxSolSystemPrompt = `
+const voxSolSystemPrompt = `
 You are VoxSol, a voice-first Solana Wallet Copilot. Be concise and action-oriented.
 
 RULES:
